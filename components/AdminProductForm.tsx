@@ -1,6 +1,6 @@
-"use client";
+ "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, FormEvent } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
 type Category = {
@@ -140,7 +140,7 @@ export default function AdminProductForm({ mode, initialData, productId }: Props
 
   const title = useMemo(() => (mode === "edit" ? "Update Product" : "Create Product"), [mode]);
 
-  async function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setErr(null);
     setOk(null);

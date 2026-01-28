@@ -18,7 +18,7 @@ export default function NewProductPage() {
         </Link>
       </div>
 
-      <AdminProductForm />
+      <AdminProductForm mode="create" />
     </div>
   );
 }
