@@ -84,7 +84,8 @@ export default function HeroCarousel() {
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
       {/* Carousel Container */}
-      <div className="relative aspect-[16/10] md:aspect-[16/6] lg:aspect-[16/5]">
+      {/* Mobile ~414x276px => 3:2 aspect ratio */}
+      <div className="relative aspect-[3/2] md:aspect-[16/6] lg:aspect-[16/5]">
         {slides.map((slide, index) => (
           <div
             key={slide.id}
