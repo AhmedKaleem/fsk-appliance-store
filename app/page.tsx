@@ -9,7 +9,7 @@ import { getCategoryImageUrls } from "@/lib/categoryImages";
 type Category = {
   id: string;
   name: string;
-  slug: string;
+  slug: string | null;
 };
 
 function CategoryTile({ c, imageUrl }: { c: Category; imageUrl: string | null }) {
@@ -18,7 +18,7 @@ function CategoryTile({ c, imageUrl }: { c: Category; imageUrl: string | null })
 
   return (
     <Link
-      href={`/category/${c.slug}`}
+      href={`/category/${c.id}`}
       className="group relative rounded-2xl border border-gray-200 bg-white overflow-hidden hover:shadow-xl hover:border-[hsl(var(--brand))]/30 transition-all duration-300"
     >
       <div className="relative aspect-[4/2] overflow-hidden">
@@ -118,7 +118,7 @@ export default async function HomePage() {
                 </Link>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5">
                 {categories.length ? (
                   categories.map((c) => (
                     <CategoryTile key={c.id} c={c} imageUrl={categoryImageUrls[c.name] || null} />

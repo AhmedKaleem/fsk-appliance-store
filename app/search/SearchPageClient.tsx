@@ -194,7 +194,7 @@ export default function SearchPageClient() {
                     {categories.map((category) => (
                       <Link
                         key={category.id}
-                        href={`/category/${category.slug}`}
+                        href={`/category/${category.id}`}
                         className="group rounded-xl border-2 border-gray-200 bg-white p-4 text-center hover:border-[hsl(var(--brand))] hover:shadow-md transition-all duration-200"
                       >
                         <div className="font-semibold text-sm text-gray-900 group-hover:text-[hsl(var(--brand))] transition-colors line-clamp-2">

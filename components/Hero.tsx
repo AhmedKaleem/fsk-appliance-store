@@ -7,8 +7,8 @@ export default function Hero() {
       {/* Hero Carousel Banner */}
       <HeroCarousel />
 
-      {/* Promo strip like Wakefit (icons row) */}
-      <div className="mt-4 md:mt-6 rounded-2xl bg-white shadow-sm border border-gray-200 px-4 md:px-6 py-3 md:py-4 flex flex-wrap items-center justify-between gap-3 text-xs md:text-sm text-gray-700">
+      {/* Promo strip like Wakefit (icons row) - hidden on mobile */}
+      <div className="mt-4 md:mt-6 rounded-2xl bg-white shadow-sm border border-gray-200 px-4 md:px-6 py-3 md:py-4 hidden md:flex flex-wrap items-center justify-between gap-3 text-xs md:text-sm text-gray-700">
         <div className="flex items-center gap-2">
           <span className="text-[hsl(var(--brand))] font-semibold">Right to Save</span>
           <span className="hidden sm:inline text-gray-400">•</span>
@@ -34,8 +34,8 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Content Below Carousel */}
-      <div className="mt-8 md:mt-10">
+      {/* Content Below Carousel - hidden on mobile (left side, right side, badge) */}
+      <div className="mt-8 md:mt-10 hidden md:block">
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="space-y-6">
             <p className="inline-flex items-center gap-2 rounded-full bg-white border border-gray-200 px-4 py-2 text-xs font-semibold text-gray-700 shadow-sm">
@@ -81,22 +81,28 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right side - Trust Badge */}
-          <div className="hidden md:flex justify-center">
-            <div className="rounded-2xl bg-white border-2 border-gray-200 px-8 py-6 shadow-xl max-w-sm">
-              <div className="text-xs text-gray-500 font-medium mb-1 text-center">Up to</div>
-              <div className="text-4xl font-bold text-[hsl(var(--brand))] text-center">₹ Best Price</div>
-              <div className="text-xs text-gray-500 font-medium mt-1 text-center">on WhatsApp enquiry</div>
-              <div className="mt-4 pt-4 border-t border-gray-200">
-                <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
+          {/* Right side - Smart TV image with trust badge on bottom-left */}
+          <div className="relative hidden md:block aspect-square md:aspect-[4/3] rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://jrbmhkfhxsiovycymkoa.supabase.co/storage/v1/object/public/product-images/products/Smart%20TV%20(1260%20x%201260%20px)%20(1).png"
+              alt="Smart TV banner"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg px-4 py-3 text-xs sm:text-sm text-gray-800">
+              <div className="font-semibold text-[hsl(var(--brand))] text-xs sm:text-sm">
+                Trusted Quality
+              </div>
+              <div className="mt-1 space-y-1 text-[11px] sm:text-xs">
+                <div className="flex items-center gap-1.5">
                   <span>✓</span>
                   <span>Free Delivery</span>
                 </div>
-                <div className="flex items-center justify-center gap-2 text-sm text-gray-600 mt-2">
+                <div className="flex items-center gap-1.5">
                   <span>✓</span>
                   <span>Installation Support</span>
                 </div>
-                <div className="flex items-center justify-center gap-2 text-sm text-gray-600 mt-2">
+                <div className="flex items-center gap-1.5">
                   <span>✓</span>
                   <span>EMI Available</span>
                 </div>

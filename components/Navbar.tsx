@@ -1,12 +1,21 @@
- "use client";
+"use client";
 
-import { useState, FormEvent } from "react";
+import { useEffect, useMemo, useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { supabase } from "@/lib/supabaseClient";
+
+type Category = {
+  id: string;
+  name: string;
+  slug: string | null;
+};
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loadingCats, setLoadingCats] = useState(true);
   const router = useRouter();
 
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
@@ -15,6 +24,49 @@ export default function Navbar() {
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
+
+  useEffect(() => {
+    let active = true;
+
+    const loadCategories = async () => {
+      setLoadingCats(true);
+      const { data, error } = await supabase
+        .from("categories")
+        .select("id,name,slug")
+        .order("name", { ascending: true });
+
+      if (!active) return;
+      if (!error && data) {
+        setCategories(data as Category[]);
+      }
+      setLoadingCats(false);
+    };
+
+    loadCategories();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const stripCategories = useMemo(() => {
+    if (!categories.length) return [];
+
+    const preferredLabels = [
+      "Air Conditioners",
+      "Televisions",
+      "Refrigerators",
+      "Washing Machines",
+      "Kitchen Appliances",
+      "Small Appliances",
+    ];
+
+    const preferred = preferredLabels
+      .map((label) => categories.find((c) => c.name.toLowerCase() === label.toLowerCase()))
+      .filter(Boolean) as Category[];
+
+    return preferred.length ? preferred : categories;
+  }, [categories]);
 
   return (
     <header className="sticky top-0 z-50">
@@ -117,21 +169,21 @@ export default function Navbar() {
         {/* category strip like Wakefit menu */}
         <div className="border-t border-purple-700/40 bg-white">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2.5 flex gap-2 overflow-x-auto scrollbar-hide">
-            {[
-              "Air Conditioners",
-              "Televisions",
-              "Refrigerators",
-              "Washing Machines",
-              "Kitchen Appliances",
-              "Small Appliances",
-            ].map((c) => (
-              <span
-                key={c}
-                className="whitespace-nowrap rounded-full border border-purple-100 bg-white px-4 py-1.5 text-xs font-medium text-purple-900 hover:bg-purple-100 hover:border-purple-200 cursor-pointer transition-all duration-200"
-              >
-                {c}
+            {loadingCats && !stripCategories.length ? (
+              <span className="text-xs font-medium text-gray-500 px-2 py-1.5">
+                Loading categories...
               </span>
-            ))}
+            ) : (
+              stripCategories.map((item) => (
+                <Link
+                  key={item.id}
+                  href={`/category/${item.id}`}
+                  className="whitespace-nowrap rounded-full border border-purple-100 bg-white px-4 py-1.5 text-xs font-medium text-purple-900 hover:bg-purple-100 hover:border-purple-200 cursor-pointer transition-all duration-200"
+                >
+                  {item.name}
+                </Link>
+              ))
+            )}
           </div>
         </div>
       </div>
