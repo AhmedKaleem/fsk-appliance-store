@@ -79,13 +79,13 @@ export default function HeroCarousel() {
 
   return (
     <div 
-      className="relative w-full rounded-3xl overflow-hidden shadow-lg"
+      // Mobile target: 414x276 px (exact height, capped width)
+      className="relative w-full max-w-[414px] md:max-w-none mx-auto rounded-3xl overflow-hidden shadow-lg"
       onMouseEnter={() => setIsAutoPlaying(false)}
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
       {/* Carousel Container */}
-      {/* Mobile ~414x276px => 3:2 aspect ratio */}
-      <div className="relative aspect-[3/2] md:aspect-[16/6] lg:aspect-[16/5]">
+      <div className="relative h-[276px] md:h-auto md:aspect-[16/6] lg:aspect-[16/5]">
         {slides.map((slide, index) => (
           <div
             key={slide.id}

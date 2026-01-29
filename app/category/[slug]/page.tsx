@@ -48,7 +48,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   const otherProducts = relevantProducts ?? [];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 md:py-10">
       {/* Breadcrumb */}
       <nav className="mb-6 text-sm text-gray-600">
         <Link href="/" className="hover:text-[hsl(var(--brand))] transition-colors">Home</Link>
@@ -99,7 +99,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
       {/* You May Also Like - products from other categories */}
       {otherProducts.length > 0 && (
-        <section className="mt-12 md:mt-16">
+        <section className="mt-10 md:mt-12">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold text-gray-900 tracking-tight">You May Also Like</h2>
             <Link

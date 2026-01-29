@@ -3,6 +3,7 @@ import Link from "next/link";
 import Hero from "@/components/Hero";
 import TrustRow from "@/components/TrustRow";
 import ProductCard, { type ProductCardType } from "@/components/ProductCard";
+import NewLaunchCarousel from "@/components/NewLaunchCarousel";
 import { supabase } from "@/lib/supabaseClient";
 import { getCategoryImageUrls } from "@/lib/categoryImages";
 
@@ -69,35 +70,32 @@ export default async function HomePage() {
 
   const products: ProductCardType[] = (productsData || []) as any;
 
-  // New Launches - Get first product with is_newlaunch = true for banner image
-  const { data: newLaunchProduct } = await supabase
+  // New Launches - fetch a few items for the right-side carousel
+  const { data: newLaunchProducts } = await supabase
     .from("products")
     .select("id,name,images")
     .eq("is_active", true)
     .eq("is_newlaunch", true)
     .order("created_at", { ascending: false })
-    .limit(1)
-    .single();
+    .limit(6);
 
-  // Check if any new launches exist
-  const { count: newLaunchCount } = await supabase
-    .from("products")
-    .select("id", { count: "exact", head: true })
-    .eq("is_active", true)
-    .eq("is_newlaunch", true);
+  const newLaunchSlides =
+    (newLaunchProducts || [])
+      .map((p: any) => {
+        const first = Array.isArray(p.images) ? p.images[0] : null;
+        return first ? { image: first, alt: p.name || "New Launch" } : null;
+      })
+      .filter(Boolean) as { image: string; alt: string }[];
 
-  const hasNewLaunches = (newLaunchCount || 0) > 0;
-  const newLaunchImage = newLaunchProduct?.images && Array.isArray(newLaunchProduct.images) 
-    ? newLaunchProduct.images[0] 
-    : null;
+  const hasNewLaunches = newLaunchSlides.length > 0;
 
   return (
-    <main className="pb-20">
+    <main className="pb-12 md:pb-14">
       {/* Hero + Trust */}
       <Hero />
       <TrustRow />
 
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10 md:mt-14 space-y-16 md:space-y-20">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8 md:mt-10 space-y-12 md:space-y-16">
         {/* Category Section */}
         <section id="categories">
               <div className="flex items-center justify-between mb-6">
@@ -171,7 +169,7 @@ export default async function HomePage() {
             >
               <div className="grid md:grid-cols-2 gap-0">
                 {/* Left Side - Text Content */}
-                <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center">
+                <div className="p-6 md:p-10 lg:p-12 flex flex-col justify-center">
                   <p className="text-sm md:text-base text-gray-700 mb-2">Fresh Drops. Latest Styles.</p>
                   <p className="text-sm md:text-base text-gray-600 mb-4">
                     Discover what&apos;s new in FSK Electronics Shop.
@@ -187,23 +185,12 @@ export default async function HomePage() {
                   </div>
                 </div>
 
-                {/* Right Side - Product Image */}
-                <div className="relative aspect-square md:aspect-auto md:h-full min-h-[300px] bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                  {newLaunchImage ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={newLaunchImage}
-                      alt={newLaunchProduct?.name || "New Launch Product"}
-                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  ) : (
-                    <div className="h-full w-full flex items-center justify-center text-gray-400 text-sm font-medium">
-                      New Launch Product
-                    </div>
-                  )}
+                {/* Right Side - Carousel (no controls; whole card is a link) */}
+                <div className="relative aspect-square md:aspect-auto md:h-[340px] lg:h-[360px] bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                  <NewLaunchCarousel items={newLaunchSlides} />
                   {/* Label overlay */}
                   <div className="absolute bottom-4 right-4 rounded-full bg-white/90 backdrop-blur-sm px-4 py-2 text-xs font-semibold text-gray-900 shadow-sm">
-                    {newLaunchProduct?.name || "New Launch"}
+                    New Launches
                   </div>
                 </div>
               </div>
@@ -246,7 +233,7 @@ export default async function HomePage() {
         </section>
 
         {/* Bottom CTA */}
-        <section className="mt-4 md:mt-6">
+        <section>
               <div className="relative rounded-3xl border border-gray-200 bg-gradient-to-br from-white via-[hsl(var(--brand))]/5 to-white p-8 md:p-12 lg:p-16 overflow-hidden">
                 <div
                   className="absolute inset-0 opacity-30"

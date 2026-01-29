@@ -38,7 +38,7 @@ export default function AdminEditProductPage() {
 
   if (!id) {
     return (
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
         <div className="rounded-2xl border border-gray-200 bg-white p-8">
           <h1 className="text-xl font-semibold text-gray-900">Route param missing</h1>
           <pre className="mt-4 rounded-xl bg-gray-50 p-4 text-xs overflow-auto text-left">
@@ -51,7 +51,7 @@ export default function AdminEditProductPage() {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
         <div className="text-center text-gray-600">Loading product...</div>
       </div>
     );
@@ -59,7 +59,7 @@ export default function AdminEditProductPage() {
 
   if (err) {
     return (
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
         <div className="rounded-2xl border-2 border-red-200 bg-red-50 p-8">
           <h1 className="text-xl font-semibold text-red-900">Error loading product</h1>
           <pre className="mt-4 rounded-xl bg-white p-4 text-xs overflow-auto text-left">
@@ -72,7 +72,7 @@ export default function AdminEditProductPage() {
 
   if (!product) {
     return (
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
         <div className="rounded-2xl border border-gray-200 bg-white p-8 text-center">
           <h1 className="text-xl font-semibold text-gray-900">Product not found</h1>
           <Link 
@@ -87,7 +87,7 @@ export default function AdminEditProductPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 md:py-10">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Edit Product</h1>
